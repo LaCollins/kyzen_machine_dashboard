@@ -23,16 +23,21 @@ const UpdateLimits = (props) => {
     const [tempType, setTempType] = useState('f');
 
     useEffect(() => {
-        if(props.concentration) {
-            setConcHigh(props.concUpper);
-            setConcLow(props.concLower);
-        } else {
-            setTempHigh(props.tempUpper);
-            setTempLow(props.tempLower);
-        }
-    }, [props]);
+      if(props.concentration) {
+          setConcHigh(props.concUpper);
+          setConcLow(props.concLower);
+      } else {
+          setTempHigh(props.tempUpper);
+          setTempLow(props.tempLower);
+      }
+  }, [props]);
 
- const updateUpperConc = (value) => {
+
+    const tempTypeChange = (e) => {
+      setTempType(e.target.value);
+    }
+
+    const updateUpperConc = (value) => {
       if(value < concLow) {
           setWarningUpperTooLow(true);
       } else 
@@ -40,99 +45,95 @@ const UpdateLimits = (props) => {
           setConcHigh(value);
           setWarningUpperTooLow(false);
       }
- }
-
- const updateLowerConc = (value) => {
-    if(value > concHigh) {
-        setWarningLowerTooHigh(true);
-    } else 
-    {
-        setConcLow(value);
-        setWarningLowerTooHigh(false);
     }
-}
 
-const updateUpperTemp = (value) => {
-    if(value < tempLow) {
-        setWarningUpperTooLow(true);
-    } else 
-    {
-        setTempHigh(value);
-        setWarningUpperTooLow(false);
-    }
-}
-
-const updateLowerTemp = (value) => {
-    if(value > tempHigh) {
-        setWarningLowerTooHigh(true);
-    } else 
-    {
-        setTempLow(value);
-        setWarningLowerTooHigh(false);
-    }
-}
-
-const tempTypeChange = (e) => {
-  setTempType(e.target.value);
-}
-
-const updateData = () => {
-  if (props.concentration) {
-      const high = parseInt(concHigh);
-      const low = parseInt(concLow);
-  
-      const newReadingObject = {
-        "conc" : props.dataObj.conc,
-        "temp" : props.dataObj.temp,
-        "tempLimit" : {
-            "upper" : props.dataObj.tempLimit.upper,
-            "lower" : props.dataObj.tempLimit.lower,
-        },
-        "concLimit" : {
-            "upper": high,
-            "lower": low
+    const updateLowerConc = (value) => {
+        if(value > concHigh) {
+            setWarningLowerTooHigh(true);
+        } else 
+        {
+            setConcLow(value);
+            setWarningLowerTooHigh(false);
         }
-      }
-      updateCurrentData(newReadingObject)
-      .then(() => {
-        handleClose();
-        props.refreshData();
-        })
-      .catch((error) => console.error(error));
-  } else {
-      let high;
-      let low;
+    }
 
-      if(tempType === 'c') {
-        high = Math.round((parseInt(tempHigh) * 1.8) + 32)
-        low = Math.round((parseInt(tempLow) * 1.8) + 32)
+    const updateUpperTemp = (value) => {
+        if(value < tempLow) {
+            setWarningUpperTooLow(true);
+        } else 
+        {
+            setTempHigh(value);
+            setWarningUpperTooLow(false);
+        }
+    }
+
+    const updateLowerTemp = (value) => {
+        if(value > tempHigh) {
+            setWarningLowerTooHigh(true);
+        } else 
+        {
+            setTempLow(value);
+            setWarningLowerTooHigh(false);
+        }
+    }
+
+    const updateData = () => {
+      if (props.concentration) {
+          const high = parseInt(concHigh);
+          const low = parseInt(concLow);
+      
+          const newReadingObject = {
+            "conc" : props.dataObj.conc,
+            "temp" : props.dataObj.temp,
+            "tempLimit" : {
+                "upper" : props.dataObj.tempLimit.upper,
+                "lower" : props.dataObj.tempLimit.lower,
+            },
+            "concLimit" : {
+                "upper": high,
+                "lower": low
+            }
+          }
+          updateCurrentData(newReadingObject)
+          .then(() => {
+            handleClose();
+            props.refreshData();
+            })
+          .catch((error) => console.error(error));
       } else {
-        high = parseInt(tempHigh);
-        low = parseInt(tempLow);
-      }
-  
-      const newReadingObject = {
-        "conc" : props.dataObj.conc,
-        "temp" : props.dataObj.temp,
-        "tempLimit" : {
-            "upper" : high,
-            "lower" : low,
-        },
-        "concLimit" : {
-            "upper": props.dataObj.concLimit.upper,
-            "lower": props.dataObj.concLimit.lower
-        }
-      }
-      console.error(newReadingObject);
-      updateCurrentData(newReadingObject)
-      .then(() => {
-        handleClose();
-        props.refreshData();
-        })
-      .catch((error) => console.error(error))
-  }
+          let high;
+          let low;
 
-  }
+          if(tempType === 'c') {
+            high = Math.round((parseInt(tempHigh) * 1.8) + 32)
+            low = Math.round((parseInt(tempLow) * 1.8) + 32)
+          } else {
+            high = parseInt(tempHigh);
+            low = parseInt(tempLow);
+          }
+      
+          const newReadingObject = {
+            "conc" : props.dataObj.conc,
+            "temp" : props.dataObj.temp,
+            "tempLimit" : {
+                "upper" : high,
+                "lower" : low,
+            },
+            "concLimit" : {
+                "upper": props.dataObj.concLimit.upper,
+                "lower": props.dataObj.concLimit.lower
+            }
+          }
+          console.error(newReadingObject);
+          updateCurrentData(newReadingObject)
+          .then(() => {
+            handleClose();
+            props.refreshData();
+            })
+          .catch((error) => console.error(error))
+      }
+
+      }
 
     return (
         <>

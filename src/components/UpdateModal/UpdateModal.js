@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import NumPad from 'react-numpad';
 import Warning from '../Warning/Warning';
 import updateCurrentData from '../../helpers/data/updateCurrentData';
@@ -19,10 +20,16 @@ const UpdateModal = (props) => {
     const [highTempWarning, setHighTempWarning] = useState(false);
     const [lowTempWarning, setLowTempWarning] = useState(false);
 
+    const [tempType, setTempType] = useState('f');
+
     useEffect(() => {
         setNewConc(props.props.conc);
         setNewTemp(props.props.temp);
     }, [props]);
+
+    const tempTypeChange = (e) => {
+      setTempType(e.target.value);
+    }
 
     const updateConc = (value) => {
         if(value > props.props.concLimit.upper) {
@@ -40,10 +47,17 @@ const UpdateModal = (props) => {
     }
 
     const updateTemp = (value) => {
-      if(value > props.props.tempLimit.upper) {
+      let tempValue;
+      if(tempType === 'c') {
+        tempValue = Math.round((parseInt(value) * 1.8) + 32)
+      } else {
+        tempValue = value;
+      }
+
+      if(tempValue > props.props.tempLimit.upper) {
           setHighTempWarning(true);
           setLowTempWarning(false);
-      } else if(value < props.props.tempLimit.lower)
+      } else if(tempValue < props.props.tempLimit.lower)
       {
           setLowTempWarning(true);
           setHighTempWarning(false);
@@ -51,7 +65,7 @@ const UpdateModal = (props) => {
           setLowTempWarning(false);
           setHighTempWarning(false);
       }
-      setNewTemp(value);
+      setNewTemp(tempValue);
   }
 
   const updateData = () => {
@@ -85,7 +99,7 @@ const UpdateModal = (props) => {
             props.refreshData();
           })
       })
-      .catch((error) => console.error(error))
+      .catch((error) => console.error(error));
   }
 
 
@@ -137,15 +151,42 @@ const UpdateModal = (props) => {
                   tooLow={lowTempWarning}
                   tempUpper={props.props.tempLimit.upper}
                   tempLower={props.props.tempLimit.lower}
+                  tempType={tempType}
                   />)
                     : ('')}
               <div>Temperature:</div>
-              <NumPad.Number
+              {tempType === 'c' ? (<NumPad.Number
+                onClick={resetStates}
+                onChange={(value) => { updateTemp(value)} }
+                value={Math.round((newTemp - 32) / 1.8)}
+                negative={false}
+              />)
+              : (<NumPad.Number
                 onClick={resetStates}
                 onChange={(value) => { updateTemp(value)} }
                 value={newTemp}
                 negative={false}
-            />
+              />)}
+               <div>
+                <Form.Group>
+                    <Form.Check 
+                      type="radio" 
+                      name="tempconversion"
+                      aria-label="tempconversion"
+                      inline label="Fahrenheit"
+                      checked={tempType === 'f'}
+                      onChange={tempTypeChange}
+                      value="f"></Form.Check>
+                    <Form.Check
+                      type="radio"
+                      name="tempconversion"
+                      aria-label="tempconversion"
+                      inline label="Celsius"
+                      checked={tempType === 'c'}
+                      onChange={tempTypeChange}
+                      value="c"></Form.Check>
+                </Form.Group>
+                </div>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>

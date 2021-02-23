@@ -12,6 +12,8 @@ firebaseConnection();
 function App() {
 
   const [dataObj, setDataObj] = useState([]);
+  const [toggleTemp, setToggleTemp] = useState(false);
+  const ToggleFtoC = () => setToggleTemp(!toggleTemp);
 
   useEffect(() => {
       if(dataObj.length === 0) {
@@ -35,11 +37,18 @@ function App() {
     <div className="App">
       <TopBar />
       <div className="Dash">
-        <CurrentDataDisplay dataObj={dataObj} refreshData={refreshData} />
-        <Range dataObj={dataObj} refreshData={refreshData} />
+        <CurrentDataDisplay
+          dataObj={dataObj}
+          refreshData={refreshData}
+          toggleTemp={toggleTemp}
+          ToggleFtoC={ToggleFtoC} />
+        <Range
+          dataObj={dataObj}
+          refreshData={refreshData}
+          toggleTemp={toggleTemp} />
       </div>
       <div className="DataTable">
-        <HistoricalData />
+        <HistoricalData toggleTemp={toggleTemp}/>
       </div>
     </div>
   );
