@@ -6,7 +6,7 @@ const TopBar = () => {
     return (
         <div>
             <header className="App-header">
-                <img src={logo} alt="Kyzen Logo" />
+                <img src={logo} alt="Kyzen Logo" id="kyzenlogo" />
             </header>
         </div>
     )

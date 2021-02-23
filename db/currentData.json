@@ -1,0 +1,14 @@
+{
+    "currentData" : {
+        "conc" : 15,
+        "temp" : 38,
+        "tempLimit" : {
+            "upper" : 75,
+            "lower" : 35
+        },
+        "concLimit" : {
+            "upper": 20,
+            "lower": 10
+        }
+    }
+}
