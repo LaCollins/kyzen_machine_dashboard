@@ -13,7 +13,7 @@ const Range = (props) => {
     const ToggleFtoC = () => setToggleTemp(!toggleTemp);
 
     useEffect(() => {
-        if(props.dataObj.lenght !== 0) {
+        if(props.dataObj.length !== 0) {
             setConcLower(props.dataObj.concLimit.lower);
             setConcUpper(props.dataObj.concLimit.upper);
             setTempLower(props.dataObj.tempLimit.lower);

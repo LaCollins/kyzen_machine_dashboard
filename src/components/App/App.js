@@ -5,6 +5,7 @@ import CurrentDataDisplay from '../CurrentDataDisplay/CurrentDataDisplay';
 import Range from '../Range/Range';
 import React, { useEffect, useState } from 'react';
 import currentData from '../../helpers/data/currentData';
+import HistoricalData from '../HistoricalData/HistoricalData';
 
 firebaseConnection();
 
@@ -36,6 +37,9 @@ function App() {
       <div className="Dash">
         <CurrentDataDisplay dataObj={dataObj} refreshData={refreshData} />
         <Range dataObj={dataObj} />
+      </div>
+      <div className="DataTable">
+        <HistoricalData />
       </div>
     </div>
   );
