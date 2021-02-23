@@ -2,7 +2,7 @@ import './CurrentDataDisplay.css';
 import React, { useEffect, useState } from 'react';
 import currentData from '../../helpers/data/currentData';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import UpdateModal from '../UpdateModal/UpdateModal';
 
 const CurrentDataDisplay = () => {
     const [dataObj, setDataObj] = useState([]);
@@ -23,13 +23,12 @@ const CurrentDataDisplay = () => {
                 <div className="row justify-content-between">
                     <div>Concentration:</div>
                     <span className="conc">{dataObj.conc}</span>
-                    <Button variant="outline-primary">Update</Button>
                     </div>
                 <div className="row justify-content-between mt-2">
                     <div>Temperature:</div>
                     <span>{dataObj.temp}</span>
-                    <Button variant="outline-primary">Update</Button>
-                    </div>
+                </div>
+                <UpdateModal props={dataObj} />
             </Card>
         </div>
     )
