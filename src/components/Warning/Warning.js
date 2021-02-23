@@ -23,14 +23,18 @@ const Warning = (props) => {
             <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
             <strong className="mr-auto">WARNING</strong>
         </Toast.Header>
-        { tooHigh && props.showConc === true ? (<Toast.Body>The concentration is too high! The maximum concentration is {props.concUpper}.</Toast.Body>)
+        { tooHigh && props.showConc === true ? (<Toast.Body>The concentration is too high! The maximum concentration is {props.concUpper}%.</Toast.Body>)
             : ('')}
-        { tooLow && props.showConc === true ? (<Toast.Body>The concentration is too low! The minimum concentration is {props.concLower}</Toast.Body>)
+        { tooLow && props.showConc === true ? (<Toast.Body>The concentration is too low! The minimum concentration is {props.concLower}%</Toast.Body>)
             : ('')}
         
-        { tooHigh && props.showTemp === true ? (<Toast.Body>The temperature is too high! The maximum temperature is {props.tempUpper}.</Toast.Body>)
+        { tooHigh && props.showTemp === true && props.tempType === 'f'? (<Toast.Body>The temperature is too high! The maximum temperature is {props.tempUpper}°F.</Toast.Body>)
             : ('')}
-        { tooLow && props.showTemp === true ? (<Toast.Body>The temperature is too low! The minimum temperature is {props.tempLower}</Toast.Body>)
+        { tooLow && props.showTemp === true && props.tempType === 'f' ? (<Toast.Body>The temperature is too low! The minimum temperature is {props.tempLower}°F</Toast.Body>)
+            : ('')}
+        { tooHigh && props.showTemp === true && props.tempType === 'c' ? (<Toast.Body>The temperature is too high! The maximum temperature is {Math.round((props.tempUpper - 32) / 1.8)}°C.</Toast.Body>)
+            : ('')}
+        { tooLow && props.showTemp === true && props.tempType === 'c' ? (<Toast.Body>The temperature is too low! The minimum temperature is {Math.round((props.tempLower - 32) / 1.8)}°C</Toast.Body>)
             : ('')}
         </Toast>
     )

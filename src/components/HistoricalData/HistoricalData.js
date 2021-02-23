@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import './HistoricalData.css';
 import historicalData from '../../helpers/data/historicalData';
 
-const HistoricalData = () => {
+const HistoricalData = (props) => {
     const [data, setHistoricalData] = useState([]);
 
     useEffect(() => {
@@ -26,8 +26,8 @@ const HistoricalData = () => {
                 </tr>
             </thead>
             <tbody>
-                {data.length > 0 ? (data.map((entry) => <tr><td key={entry.id}>{entry.temp}</td><td>{entry.conc}</td></tr>))
-                : ('')}
+                {props.toggleTemp === false && data.length > 0 ? (data.map((entry) => <tr><td key={entry.id}>{entry.temp}°F</td><td>{entry.conc}%</td></tr>))
+                : (data.map((entry) => <tr><td key={entry.id}>{Math.round((entry.temp - 32) / 1.8)}°C</td><td>{entry.conc}%</td></tr>))}
             </tbody>
         </Table>
         </div>
