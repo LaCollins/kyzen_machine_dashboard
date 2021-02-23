@@ -15,7 +15,6 @@ const getAllData = () => new Promise((resolve, reject) => {
             data.push(newEntry);
           });
         }
-        data.sort((a,b) => b.timeStamp - a.timeStamp);
         resolve(data);
       })
       .catch((err) => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import './Range.css';
+import UpdateLimits from '../UpdateLimits/UpdateLimits';
 
 const Range = (props) => {
     const [toggleTemp, setToggleTemp] = useState(false);
@@ -27,10 +28,20 @@ const Range = (props) => {
             <Card.Title>Allowable Limit Ranges</Card.Title>
             <Card.Body>
                 <div>Concentration: {concLower}% - {concUpper}%</div>
-                <Button variant="outline-primary" className="mt-2">Update Concentration</Button>
+                <UpdateLimits 
+                    concentration={true}
+                    concLower={concLower}
+                    concUpper={concUpper}
+                    dataObj={props.dataObj}
+                    refreshData={props.refreshData} />
                 {toggleTemp ? (<div className="mt-2">Temperature: {Math.round((tempLower - 32) / 1.8)}°C - {Math.round((tempUpper - 32) / 1.8)}°C</div>)
                 : (<div className="mt-2">Temperature: {tempLower}°F - {tempUpper}°F</div>)}
-                <Button variant="outline-primary" className="mt-2">Update Temp Range</Button>
+                <UpdateLimits 
+                    concentration={false}
+                    tempLower={tempLower}
+                    tempUpper={tempUpper}
+                    dataObj={props.dataObj}
+                    refreshData={props.refreshData} />
             </Card.Body>
             <Card.Footer>
                 {toggleTemp ? (<Button variant="outline-primary" onClick={ToggleFtoC}>Convert from °F to °C</Button>)
