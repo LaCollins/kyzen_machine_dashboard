@@ -1,0 +1,22 @@
+.CurrentDataDisplay {
+    display: flex;
+    justify-content: center;
+}
+
+.displayCard {
+    width: 50%;
+    margin: 10px;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.conc {
+    margin-left: -20px;
+}
+
+
+@media only screen and (max-width: 640px) {
+    .displayCard {
+        width: 80%;
+    }
+}
