@@ -9,7 +9,8 @@ const HistoricalData = () => {
     useEffect(() => {
         historicalData()
             .then((resp) => {
-                setHistoricalData(resp)
+                const sortedArray = resp.sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp)); // Sorts entries by date and time
+                setHistoricalData(sortedArray)
             })
             .catch((error) => console.error(error))
     }, [data])

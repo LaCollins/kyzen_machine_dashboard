@@ -36,7 +36,7 @@ function App() {
       <TopBar />
       <div className="Dash">
         <CurrentDataDisplay dataObj={dataObj} refreshData={refreshData} />
-        <Range dataObj={dataObj} />
+        <Range dataObj={dataObj} refreshData={refreshData} />
       </div>
       <div className="DataTable">
         <HistoricalData />
