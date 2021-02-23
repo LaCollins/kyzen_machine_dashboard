@@ -20,6 +20,8 @@ const UpdateLimits = (props) => {
     const [tempHigh, setTempHigh] = useState(0);
     const [tempLow, setTempLow] = useState(0);
 
+    const [tempType, setTempType] = useState('f');
+
     useEffect(() => {
         if(props.concentration) {
             setConcHigh(props.concUpper);
@@ -70,52 +72,65 @@ const updateLowerTemp = (value) => {
     }
 }
 
-  const updateData = () => {
-    if (props.concentration) {
-        const high = parseInt(concHigh);
-        const low = parseInt(concLow);
-    
-        const newReadingObject = {
-          "conc" : props.dataObj.conc,
-          "temp" : props.dataObj.temp,
-          "tempLimit" : {
-              "upper" : props.dataObj.tempLimit.upper,
-              "lower" : props.dataObj.tempLimit.lower,
-          },
-          "concLimit" : {
-              "upper": high,
-              "lower": low
-          }
+const tempTypeChange = (e) => {
+  setTempType(e.target.value);
+}
+
+const updateData = () => {
+  if (props.concentration) {
+      const high = parseInt(concHigh);
+      const low = parseInt(concLow);
+  
+      const newReadingObject = {
+        "conc" : props.dataObj.conc,
+        "temp" : props.dataObj.temp,
+        "tempLimit" : {
+            "upper" : props.dataObj.tempLimit.upper,
+            "lower" : props.dataObj.tempLimit.lower,
+        },
+        "concLimit" : {
+            "upper": high,
+            "lower": low
         }
-        updateCurrentData(newReadingObject)
-        .then(() => {
-         handleClose();
-         props.refreshData();
-         })
-       .catch((error) => console.error(error));
-    } else {
-        const high = parseInt(tempHigh);
-        const low = parseInt(tempLow);
-    
-        const newReadingObject = {
-          "conc" : props.dataObj.conc,
-          "temp" : props.dataObj.temp,
-          "tempLimit" : {
-              "upper" : high,
-              "lower" : low,
-          },
-          "concLimit" : {
-              "upper": props.dataObj.concLimit.upper,
-              "lower": props.dataObj.concLimit.lower
-          }
+      }
+      updateCurrentData(newReadingObject)
+      .then(() => {
+        handleClose();
+        props.refreshData();
+        })
+      .catch((error) => console.error(error));
+  } else {
+      let high;
+      let low;
+
+      if(tempType === 'c') {
+        high = Math.round((parseInt(tempHigh) * 1.8) + 32)
+        low = Math.round((parseInt(tempLow) * 1.8) + 32)
+      } else {
+        high = parseInt(tempHigh);
+        low = parseInt(tempLow);
+      }
+  
+      const newReadingObject = {
+        "conc" : props.dataObj.conc,
+        "temp" : props.dataObj.temp,
+        "tempLimit" : {
+            "upper" : high,
+            "lower" : low,
+        },
+        "concLimit" : {
+            "upper": props.dataObj.concLimit.upper,
+            "lower": props.dataObj.concLimit.lower
         }
-        updateCurrentData(newReadingObject)
-        .then(() => {
-         handleClose();
-         props.refreshData();
-         })
-       .catch((error) => console.error(error))
-    }
+      }
+      console.error(newReadingObject);
+      updateCurrentData(newReadingObject)
+      .then(() => {
+        handleClose();
+        props.refreshData();
+        })
+      .catch((error) => console.error(error))
+  }
 
   }
 
@@ -173,8 +188,22 @@ const updateLowerTemp = (value) => {
             {!props.concentration ? (
                 <div>
                 <Form.Group>
-                    <Form.Check type="radio" name="tempconversion" aria-label="tempconversion" inline label="Fahrenheit"></Form.Check>
-                    <Form.Check type="radio" name="tempconversion" aria-label="tempconversion" inline label="Celsius"></Form.Check>
+                    <Form.Check 
+                      type="radio" 
+                      name="tempconversion"
+                      aria-label="tempconversion"
+                      inline label="Fahrenheit"
+                      checked={tempType === 'f'}
+                      onChange={tempTypeChange}
+                      value="f"></Form.Check>
+                    <Form.Check
+                      type="radio"
+                      name="tempconversion"
+                      aria-label="tempconversion"
+                      inline label="Celsius"
+                      checked={tempType === 'c'}
+                      onChange={tempTypeChange}
+                      value="c"></Form.Check>
                 </Form.Group>
                 </div>
             )
