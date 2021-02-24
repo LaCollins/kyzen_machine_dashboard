@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "machine-dashboard-f3102",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
