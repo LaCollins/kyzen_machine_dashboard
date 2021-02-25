@@ -10,6 +10,7 @@
 * HTML5
 * React-Bootstrap
 * [React-Numpad](https://www.npmjs.com/package/react-numpad) for keyboardless entry
+* [Chartkick](https://chartkick.com/) for graph
 * Axios
 * Firebase (JSON Database and Hosting)
 

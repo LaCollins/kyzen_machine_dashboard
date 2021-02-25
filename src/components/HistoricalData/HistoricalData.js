@@ -36,18 +36,6 @@ const HistoricalData = (props) => {
         <div className="chartContainer">
             <LineChart data={chartData} />
         </div>
-        {/* <Table striped bordered hover variant="light">
-            <thead>
-                <tr>
-                    <th>Temp</th>
-                    <th>Conc</th>
-                </tr>
-            </thead>
-            <tbody>
-                {props.toggleTemp === false && data.length > 0 ? (data.map((entry) => <tr><td key={entry.id}>{entry.temp}°F</td><td>{entry.conc}%</td></tr>))
-                : (data.map((entry) => <tr><td key={entry.id}>{Math.round((entry.temp - 32) / 1.8)}°C</td><td>{entry.conc}%</td></tr>))}
-            </tbody>
-        </Table> */}
         </div>
     )
 }
